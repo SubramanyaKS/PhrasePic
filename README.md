@@ -12,6 +12,7 @@ PhasePic is a text-to-image generator built using Next.js. It leverages Stabilit
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
 - [License](#license)
+- [Credits](#credits)
 - [Contact](#contact)
 
 ## Demo
@@ -94,6 +95,12 @@ Contributions are welcome! Please follow these steps to contribute:
 ### License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+### Credits
+
+* [Hugging Face](https://huggingface.co/)
+
+* [Stability AI](https://huggingface.co/stabilityai/)
 
 ### Contact
 
