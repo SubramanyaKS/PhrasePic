@@ -6,6 +6,11 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --primary:26,20,67;
+  --magenta:255, 0, 255;
+  --purple:160,32,240;
+  --secondary-color:34,197,94;
+  --primary-color: 59,130,246;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -15,19 +20,52 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
 
 body {
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  background:linear-gradient(rgb(var(--primary-color)),rgb(var(--secondary-color))) no-repeat;
+}
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+html,body{
+  padding: 0;
+  margin: 0;
+  height: 100%;
+}
+
+.heading{
+  color:rgb(var(--background-start-rgb));
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+main {
+  flex: 1;
+}
+
+
+footer {
+  padding: 10px;
+  text-align: center;
 }
