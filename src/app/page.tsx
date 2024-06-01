@@ -20,8 +20,8 @@ export default function Home() {
     <main>
       <section className="hero text-white py-20">
         <div className="container mx-auto text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">Transform Your Words into Stunning Images</h1>
-          <p className="text-lg md:text-xl mb-8">
+          <h1 className=" drop-shadow-2xl text-4xl md:text-6xl  bg-gradient-to-r from-pink-900 to-pink-500 bg-clip-text text-transparent font-bold mb-4 p-2 z-10">Transform Your Words into Stunning Images</h1>
+         <p className="text-lg md:text-xl mb-8">
             Unleash your creativity with our powerful text-to-image generator. Simply type your text and watch it come to life as a beautiful image. Perfect for social media, presentations, and more!
           </p>
           <Button title="Get Started" OnClick={moveToGenerate}/>
