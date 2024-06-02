@@ -2,6 +2,8 @@
 
 PhasePic is a text-to-image generator built using Next.js. It leverages Stability AI's Stable Diffusion model API hosted on Hugging Face to convert text prompts into images.
 
+**NOTE** : The project currently in development stage.
+
 ## Table of Contents
 
 - [Demo](#demo)
@@ -92,9 +94,9 @@ Contributions are welcome! Please follow these steps to contribute:
 4. Push to the branch (`git push origin feature/your-feature`).
 5. Open a Pull Request.
 
-### License
+<!-- ### License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details. -->
 
 ### Credits
 
@@ -107,4 +109,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 If you have any questions or suggestions, feel free to reach out to me:
 
 - GitHub: [SubramanyaKS](https://github.com/SubramanyaKS)
-- Email: your-email@example.com
