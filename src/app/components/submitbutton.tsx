@@ -9,7 +9,7 @@ const Submitbutton = ({title}:Props) => {
   return (
     <button
             type="submit"
-            className="w-full bg-white font-semibold text-pink-600 py-2 rounded-3xl hover:text-white hover:bg-pink-300 transition duration-300"
+            className="w-full bg-white hover:tracking-widest font-semibold text-pink-600 py-2 rounded-3xl hover:text-white hover:bg-pink-400 transition duration-300"
           >
             {title}
     </button>

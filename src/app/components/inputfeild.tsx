@@ -19,7 +19,7 @@ const InputFeild = ({title,OnChange,id,value,type}:Props) => {
             <input
               type={type}
               id={id}
-              className="w-full bg-transparent text-white px-3 py-2 border-b rounded-lg focus:outline-none focus:border-pink-300"
+              className="w-full bg-transparent text-white px-3 py-2 border-b rounded-lg focus:outline-none focus:border-pink-300 focus:bg-pink-500"
               value={value}
               onChange={OnChange}
               required
