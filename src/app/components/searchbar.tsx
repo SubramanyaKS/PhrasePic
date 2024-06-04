@@ -13,7 +13,7 @@ const Searchbar = ({value,OnChange}:Props) => {
               className="w-full h-9 rounded-md px-2.5 py-1 text-pink-600" 
               value={value} 
               onChange={OnChange} 
-              
+              placeholder="Enter your prompt.."
             />
           </div>
   )
