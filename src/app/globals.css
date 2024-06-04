@@ -65,7 +65,9 @@ main {
   flex: 1;
 }
 
-
+.btn:hover{
+  box-shadow:0 0 35px rgb(219, 39, 119);
+}
 footer {
   padding: 10px;
   text-align: center;
