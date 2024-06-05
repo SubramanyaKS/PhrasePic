@@ -68,6 +68,9 @@ main {
 .btn:hover{
   box-shadow:0 0 35px rgb(219, 39, 119);
 }
+.pink-shadow{
+  box-shadow:0 0 35px rgb(253, 58, 146);
+}
 footer {
   padding: 10px;
   text-align: center;
