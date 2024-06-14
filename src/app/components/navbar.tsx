@@ -14,7 +14,7 @@ const Navbar = () => {
   return (
     <nav className="bg-black shadow-2xl p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <div className="text-pink-500 text-xl font-bold">PhasePic</div>
+        <div className="text-pink-500 text-xl font-bold">PhrasePic</div>
         <div className="hidden md:flex space-x-4">
             <Link  href='/' className="text-pink-300 hover:text-white">
               Home
