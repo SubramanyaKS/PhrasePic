@@ -1,6 +1,6 @@
-# PhasePic
+# PhrasePic
 
-PhasePic is a text-to-image generator built using Next.js. It leverages Stability AI's Stable Diffusion model API hosted on Hugging Face to convert text prompts into images.
+PhrasePic is a text-to-image generator built using Next.js. It leverages Stability AI's Stable Diffusion model API hosted on Hugging Face to convert text prompts into images.
 
 **NOTE** : The project currently in development stage.
 
@@ -41,7 +41,7 @@ These instructions will help you set up and run the project on your local machin
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/PhasePic.git
+   git clone https://github.com/SubramanyaKS/PhrasePic.git
    cd PhasePic
    ```
 
