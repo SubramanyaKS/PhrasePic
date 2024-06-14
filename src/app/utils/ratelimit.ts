@@ -2,7 +2,7 @@ import { RateLimiterMemory } from 'rate-limiter-flexible';
 
 export const rateLimiter = new RateLimiterMemory({
   points: 10, // 10 requests
-  duration: 60, // per 60 seconds by IP
+  duration: 300, // per 300 seconds by IP
 });
 
 export class RateLimitError extends Error {
