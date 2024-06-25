@@ -34,8 +34,9 @@ These instructions will help you set up and run the project on your local machin
 
 ### Prerequisites
 
-- Node.js (v14 or later)
-- npm or yarn
+- Node.js (v14 or later).
+- npm or yarn.
+- Huggingface Access Token.
 
 
 ### Installation
@@ -54,8 +55,9 @@ These instructions will help you set up and run the project on your local machin
     ```
 
 3. Create .env.local file in the root directory and add your Hugging Face API key:
+
     ```bash
-    NEXT_PUBLIC_API_KEY=<your-api-key>
+    NEXT_PUBLIC_API_KEY=<your-huggingface-access-token>
     MONGODB_URI=<your-database-url>
     JWT_SECRET=<your-jwt-secret>
     NEXTAUTH_SECRET=<your-nextauth-secret>
@@ -66,7 +68,6 @@ These instructions will help you set up and run the project on your local machin
     EMAIL_PASS=<sending-email-password>
     EMAIL_FROM=<sending-email-id>
     NEXT_PUBLIC_URL=<stable-diffusion-api-url>
-
     ```
 
 ### Usage
