@@ -6,20 +6,20 @@ PhrasePic is a text-to-image generator built using Next.js. It leverages Stabili
 
 ## Table of Contents
 
-- [Demo](#demo)
+<!-- - [Demo](#demo) -->
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
-- [License](#license)
+<!-- - [License](#license) -->
 - [Credits](#credits)
 - [Contact](#contact)
 
-## Demo
+<!-- ## Demo
 
-Check out the live demo of PhasePic [here](#).
+Check out the live demo of PhasePic [here](#). -->
 
 ## Features
 
