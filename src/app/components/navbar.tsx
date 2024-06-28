@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { signOut,useSession } from 'next-auth/react';
 import { useState } from 'react';
+import { HomeIcon, UserIcon } from '@heroicons/react/24/outline';
 
 const Navbar = () => {
   const {data:session}=useSession();
@@ -16,12 +17,12 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-pink-500 text-xl font-bold">PhrasePic</div>
         <div className="hidden md:flex space-x-4">
-            <Link  href='/' className="text-pink-300 hover:text-white">
-              Home
+            <Link  href='/' className="flex text-pink-300 hover:text-white">
+              <HomeIcon className='size-5'/> Home
             </Link>
             {!session?(
-           <Link  href={'/login'} className="text-pink-300 hover:text-white">
-             LogIn
+           <Link  href={'/login'} className="flex text-pink-300 hover:text-white">
+            <UserIcon className='size-5'/> LogIn
            </Link>):(
             <button className="text-pink-300" onClick={()=>signOut()}>LogOut</button>
            )}
@@ -43,7 +44,7 @@ const Navbar = () => {
         <div className="md:hidden mt-4 space-y-2">
            <Link  href='/' className="text-gray-300 hover:text-white">
               Home
-            </Link>
+            </Link><br/>
             {!session?(
            <Link  href={'/login'} className="text-gray-300 hover:text-white">
              LogIn
