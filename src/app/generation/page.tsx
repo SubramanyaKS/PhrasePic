@@ -7,13 +7,13 @@ import Searchbar from "../components/searchbar";
 import { useGenerate } from "../hooks/useGenerate";
 
 const page = () => {
-  const { text,loading, error, imgSrc, handleDownload, generate, refresh, handleChange }=useGenerate();
+  const { text,loading, error, imgSrc, handleDownload, generate, refresh, handleChange,talk,listening }=useGenerate();
   
   return (
     <main className="">
         <h2 className="text-2xl font-bold mb-4 text-center my-6 text-pink-200">Text to Image Generation</h2>
         <div className="container mx-auto">
-          <Searchbar value={text} OnChange={(e) => { handleChange(e)}}/> 
+          <Searchbar talk={talk} value={text} listening={listening} OnChange={(e) => { handleChange(e)}}/> 
           <div className="flex justify-center space-x-4 ">
             <Button title="Generate" OnClick={generate} />
             <Button title="Refresh" OnClick={refresh} />
