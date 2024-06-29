@@ -8,6 +8,7 @@ export const useGenerate = () => {
     const [imgSrc, setImgSrc] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
+    const [listening,setListening]= useState<boolean>(false);
     const { status } = useSession();
     const router = useRouter();
 
@@ -33,6 +34,36 @@ export const useGenerate = () => {
         if (imgSrc) {
             downloadImage(imgSrc);
         }
+    };
+
+    const talk=(e:any)=>{
+        e.preventDefault();
+
+        if (!listening) {
+            setListening(true);
+            const SpeechRecognition =
+                (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'en-US';
+
+            recognition.onresult = async (event:any) => {
+                const last = event.results.length - 1;
+                const text = event.results[last][0].transcript;
+                setText(text)
+
+            };
+
+            recognition.onend = () => {
+                setListening(false);
+            };
+
+            recognition.start();
+        } else {
+            window.speechSynthesis.cancel();
+            setListening(false);
+
+        }
+
     };
 
     const generate = async () => {
@@ -62,7 +93,6 @@ export const useGenerate = () => {
                 const objURL = URL.createObjectURL(blob);
                 setImgSrc(objURL);
             } catch (error) {
-                // console.error('Error generating image:', error);
                 setError('An error occurred while generating the image. Please try again later.');
             } finally {
                 setLoading(false);
@@ -70,6 +100,6 @@ export const useGenerate = () => {
 
         }
     };
-    return { text, loading, error, imgSrc, handleDownload, generate, refresh, handleChange }
+    return { text, loading, error, imgSrc, handleDownload, generate, refresh, handleChange, talk,listening }
 
 }
