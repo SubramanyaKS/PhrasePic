@@ -3,6 +3,7 @@ import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Button from './components/button';
+import { constants } from './utils/constant';
 
 export default function Home() {
   const {data:session} = useSession();
@@ -20,9 +21,9 @@ export default function Home() {
     <main>
       <section className="hero text-white py-20">
         <div className="container mx-auto text-center">
-          <h1 className=" drop-shadow-2xl text-4xl md:text-6xl bg-pink-500 bg-clip-text text-transparent font-bold mb-4 p-2 z-10">Transform Your Words into Stunning Images</h1>
+          <h1 className=" drop-shadow-2xl text-4xl md:text-6xl bg-pink-500 bg-clip-text text-transparent font-bold mb-4 p-2 z-10">{constants.heading}</h1>
          <p className="text-lg md:text-xl mb-8">
-            Unleash your creativity with our powerful text-to-image generator. Simply type your text and watch it come to life as a beautiful image. Perfect for social media, presentations, and more!
+           {constants.subheadline}
           </p>
           <Button title="Get Started" OnClick={moveToGenerate}/>
         </div>
