@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { signOut,useSession } from 'next-auth/react';
 import { useState } from 'react';
-import { HomeIcon, UserIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftEndOnRectangleIcon, ArrowRightStartOnRectangleIcon, HomeIcon } from '@heroicons/react/24/outline';
 
 const Navbar = () => {
   const {data:session}=useSession();
@@ -22,9 +22,9 @@ const Navbar = () => {
             </Link>
             {!session?(
            <Link  href={'/login'} className="flex text-pink-300 hover:text-white">
-            <UserIcon className='size-5'/> LogIn
+            <ArrowLeftEndOnRectangleIcon className='size-5'/> LogIn
            </Link>):(
-            <button className="text-pink-300" onClick={()=>signOut()}>LogOut</button>
+            <button className="flex text-pink-300" onClick={()=>signOut()}><ArrowRightStartOnRectangleIcon className='size-5'/>  LogOut</button>
            )}
 
         </div>
