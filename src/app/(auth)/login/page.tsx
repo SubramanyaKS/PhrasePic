@@ -2,15 +2,15 @@
 
 import Link from 'next/link';
 import React from 'react';
-import Submitbutton from '../components/submitbutton';
-import InputFeild from '../components/inputfeild';
-import { useLogin } from '../hooks/useLogin';
+import Submitbutton from '../../components/submitbutton';
+import InputFeild from '../../components/inputfeild';
+import { useLogin } from '../../hooks/useLogin';
 
 const pages = () => {
   const {data,handleChange,handleSubmit,error} = useLogin();
   
   return (
-    <div className="w-full max-w-md pink-shadow border border-pink-600 p-8 mt-16 rounded-lg shadow-2xl">
+    <div>
     <h2 className="text-2xl text-white font-bold mb-6 text-center">Login</h2>
     <form onSubmit={handleSubmit}>
       <InputFeild value={data.email} title="Email" name="email"  OnChange={handleChange} id="email" type="email"/>
