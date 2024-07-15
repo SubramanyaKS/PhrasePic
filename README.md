@@ -27,6 +27,7 @@ Check out the live demo of PhasePic [here](#). -->
 - Download the generated images.
 - Refresh to clear the current input and image.
 - Responsive design for better user experience.
+- Input via voice/speech option enabled.
 
 ## Getting Started
 
@@ -88,6 +89,7 @@ These instructions will help you set up and run the project on your local machin
 2. Click the "Generate" button to create an image based on the input text.
 3. Click the "Download" button to save the generated image to your device.
 4. Use the "Refresh" button to clear the current input and image.
+5. Click on "Mic" icon button for input via speech.
 
 ### Technologies Used
 
