@@ -102,9 +102,9 @@ These instructions will help you set up and run the project on your local machin
 
 We welcome contributions! If you'd like to contribute to PhrasePic, please follow our [Contribution Guidelines](https://github.com/SubramanyaKS/PhrasePic/blob/main/CONTRIBUTING.md).
 
-<!-- ### License
+### License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details. -->
+This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
 
 ### Credits
 
