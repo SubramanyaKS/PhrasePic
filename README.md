@@ -13,7 +13,7 @@ PhrasePic is a text-to-image generator built using Next.js. It leverages Stabili
 - [Usage](#usage)
 - [Technologies Used](#technologies-used)
 - [Contributing](#contributing)
-<!-- - [License](#license) -->
+- [License](#license)
 - [Credits](#credits)
 - [Contact](#contact)
 
@@ -97,6 +97,7 @@ These instructions will help you set up and run the project on your local machin
 - [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework
 - [Hugging Face](https://huggingface.co/) - Model hosting platform
 - [Stable Diffusion](https://www.stability.ai/) - AI model for generating images from text
+- [Next Auth](https://next-auth.js.org/) - Authentication for Next.js
 
 ### Contributing
 
