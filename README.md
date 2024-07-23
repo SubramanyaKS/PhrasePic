@@ -54,8 +54,9 @@ These instructions will help you set up and run the project on your local machin
     or
     yarn install
     ```
+3. Create a account and Login to Hugging Face and get the Acess token/API Key
 
-3. Create .env.local file in the root directory and add your Hugging Face API key:
+4. Create .env.local file in the root directory and add your Hugging Face API key:
 
     ```bash
     NEXT_PUBLIC_API_KEY=<your-huggingface-access-token>
@@ -89,7 +90,7 @@ These instructions will help you set up and run the project on your local machin
 2. Click the "Generate" button to create an image based on the input text.
 3. Click the "Download" button to save the generated image to your device.
 4. Use the "Refresh" button to clear the current input and image.
-5. Click on "Mic" icon button for input via speech.
+5. Click the "Mic" icon button for input via speech.
 
 ### Technologies Used
 
@@ -118,3 +119,4 @@ This project is licensed under the MIT License. See the [LICENSE](./LICENSE) fil
 If you have any questions or suggestions, feel free to reach out to me:
 
 - GitHub: [SubramanyaKS](https://github.com/SubramanyaKS)
+- Gmail: [Gmail](mailto://subramanyaks22@gmail.com)
