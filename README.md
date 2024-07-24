@@ -37,6 +37,7 @@ These instructions will help you set up and run the project on your local machin
 
 - Node.js (v14 or later).
 - npm or yarn.
+- git
 - Huggingface Access Token.
 
 
@@ -111,6 +112,8 @@ This project is licensed under the MIT License. See the [LICENSE](./LICENSE) fil
 ### Credits
 
 * [Hugging Face](https://huggingface.co/)
+
+* [Next JS](https://nextjs.org/)
 
 * [Stability AI](https://huggingface.co/stabilityai/)
 
