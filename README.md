@@ -21,7 +21,7 @@ PhrasePic is a text-to-image generator built using Next.js. It leverages Stabili
 
 Check out the live demo of PhasePic [here](#). -->
 
-## Features
+### Features
 
 - Convert text prompts into images using AI.
 - Download the generated images.
@@ -29,7 +29,7 @@ Check out the live demo of PhasePic [here](#). -->
 - Responsive design for better user experience.
 - Input via voice/speech option enabled.
 
-## Getting Started
+### Getting Started
 
 These instructions will help you set up and run the project on your local machine for development and testing purposes.
 
