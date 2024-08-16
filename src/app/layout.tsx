@@ -5,6 +5,7 @@ import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 import { AuthProvider } from "./context/authContext";
 import { getServerSession } from "next-auth";
+import { ToggleProvider } from "./context/themeContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,9 +24,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <AuthProvider session={session}>
+          <ToggleProvider>
         <Navbar/>
         {children}
-        <Footer/>
+        {/* <Footer/> */}
+          </ToggleProvider>
         </AuthProvider>
       </body>
     </html>
