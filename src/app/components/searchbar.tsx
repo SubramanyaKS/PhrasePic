@@ -1,14 +1,9 @@
 import { EllipsisHorizontalIcon, MicrophoneIcon } from '@heroicons/react/24/outline';
-import React, { ChangeEventHandler, MouseEventHandler } from 'react';
+import React from 'react';
+import { SearchProps } from '../utils/types';
 
-type Props = {
-  value: string,
-  OnChange: ChangeEventHandler,
-  talk: MouseEventHandler,
-  listening:boolean,
-}
 
-const Searchbar = ({ value, OnChange, talk,listening }: Props) => {
+const Searchbar = ({ value, OnChange, talk,listening }: SearchProps) => {
   return (
     <div className="relative searchbar-container my-5">
       <textarea

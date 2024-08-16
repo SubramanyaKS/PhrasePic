@@ -1,16 +1,8 @@
-import React, { ChangeEventHandler } from 'react'
+import React from 'react'
+import { InputProps } from '../utils/types'
 
-type Props={
-    title:string,
-    OnChange:ChangeEventHandler,
-    id:string,
-    value:string,
-    type:string,
-    name:string,
 
-}
-
-const InputFeild = ({title,name,OnChange,id,value,type}:Props) => {
+const InputFeild = ({title,name,OnChange,id,value,type}:InputProps) => {
   return (
     <div className="mb-4">
             <label className="block  text-pink-600 mb-2" htmlFor={id}>

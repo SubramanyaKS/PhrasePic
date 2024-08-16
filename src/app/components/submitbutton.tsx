@@ -1,12 +1,9 @@
 import { PaperAirplaneIcon } from '@heroicons/react/24/outline'
 import React from 'react'
+import { SubmitProps } from '../utils/types'
 
-interface Props{
-    title:string,
 
-}
-
-const Submitbutton = ({title}:Props) => {
+const Submitbutton = ({title}:SubmitProps) => {
   return (
     <div className='flex justify-center'>
       <button
