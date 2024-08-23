@@ -28,3 +28,6 @@ export type AuthProps = {
     children: ReactNode;
     session: any;
 }
+export type TextProps = {
+    title:string,
+}
