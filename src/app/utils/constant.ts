@@ -4,4 +4,6 @@ export const constants = {
     errorheadline:"Oops! Page not found.",
     errorcode:"404",
     errormessage:"The page you're looking for doesn't exist or has been moved.Please click below for Home page",
+    heading1:"Powered by AI",
+    text1:"Our AI models, powered by Hugging Face’s Stability AI, provide an unparalleled level of detail and creativity in every image generated. Experience the future of art with cutting-edge technology.",
 }
