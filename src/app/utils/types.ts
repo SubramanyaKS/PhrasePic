@@ -1,8 +1,8 @@
 import { ChangeEventHandler, MouseEventHandler, ReactNode } from "react";
 
-export type ButtonProps ={
+export type ButtonProps = {
     title: string,
-    OnClick: () => void,
+    OnClick?: () => void,
 }
 export type InputProps = {
     title: string,
@@ -20,14 +20,10 @@ export type SearchProps = {
     listening: boolean,
 }
 
-export type SubmitProps = {
-    title: string,
-}
-
 export type AuthProps = {
     children: ReactNode;
     session: any;
 }
 export type TextProps = {
-    title:string,
+    title: string,
 }
