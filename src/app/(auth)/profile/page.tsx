@@ -1,7 +1,7 @@
  'use client'
 import Image from 'next/image'
 import React from 'react'
-import img from '../../assets/user.png';
+import img from '../../assets/user1.jpg';
 import { useProfile } from '@/app/hooks/useProfile';
 import Button from '@/app/components/button';
 import Heading from '@/app/components/heading';
