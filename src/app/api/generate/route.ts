@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { query } from '../../utils/fetch';
 import { rateLimiter } from '../../utils/ratelimit';
-import { blobToBase64 } from '@/app/utils/blob';
+import { blobToBase64 } from '@/app/utils/generate';
 
 export async function POST(request: NextRequest) {
   try {
