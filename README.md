@@ -1,125 +1,152 @@
 # PhrasePic
 
-PhrasePic is a text-to-image generator built using Next.js. It leverages Stability AI's Stable Diffusion model API hosted on Hugging Face to convert text prompts into images.
+PhrasePic is a full-stack text-to-image application. Users can create an account, sign in, submit a prompt, and download the generated image. The Next.js application owns the web UI and API routes; image generation is delegated to a separately hosted FastAPI service.
 
-**NOTE** : The project currently in development stage.
+## Contents
 
-## Table of Contents
-
-<!-- - [Demo](#demo) -->
 - [Features](#features)
-- [Getting Started](#getting-started)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Technologies Used](#technologies-used)
+- [Architecture](#architecture)
+- [Requirements](#requirements)
+- [Local development](#local-development)
+- [Environment variables](#environment-variables)
+- [Production deployment](#production-deployment)
+- [Scripts](#scripts)
+- [Project structure](#project-structure)
 - [Contributing](#contributing)
 - [License](#license)
-- [Credits](#credits)
-- [Contact](#contact)
 
-<!-- ## Demo
+## Features
 
-Check out the live demo of PhasePic [here](#). -->
+- Prompt-to-image generation through a FastAPI image service.
+- Account registration and credentials-based authentication.
+- JWT-backed sessions with NextAuth.
+- Password reset emails with expiring reset tokens.
+- Request rate limiting on image generation.
+- Image preview, download, reset, and speech-to-text prompt input.
+- Responsive interface built with Tailwind CSS.
 
-### Features
+## Architecture
 
-- Convert text prompts into images using AI.
-- Download the generated images.
-- Refresh to clear the current input and image.
-- Responsive design for better user experience.
-- Input via voice/speech option enabled.
+```text
+Browser -> Next.js UI -> /api/generate -> FastAPI image service
+                          -> /api/auth/* -> MongoDB
+                                                  -> SMTP provider (password reset)
+```
 
-### Getting Started
+The browser never needs the image-service credentials. The `/api/generate` route validates the prompt, applies IP-based rate limiting, calls the FastAPI service, and returns the image as a data URL.
 
-These instructions will help you set up and run the project on your local machine for development and testing purposes.
+## Requirements
 
-### Prerequisites
+- Node.js 18.18 or newer (Node.js 20 LTS recommended).
+- npm 9 or newer.
+- A MongoDB database.
+- A running FastAPI image-generation service accepting `POST` requests with `{ "prompt": "..." }` and returning an image response.
+- An SMTP account for password reset messages.
 
-- Node.js (v14 or later).
-- npm or yarn.
-- git
-- Huggingface Access Token.
+## Local development
 
+1. Clone the repository and enter it:
 
-### Installation
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/SubramanyaKS/PhrasePic.git
-   cd PhrasePic
-   ```
+    ```bash
+    git clone https://github.com/SubramanyaKS/PhrasePic.git
+    cd PhrasePic
+    ```
 
 2. Install dependencies:
+
     ```bash
     npm install
-    or
-    yarn install
     ```
-3. Create a account and Login to Hugging Face and get the Acess token/API Key
 
-4. Create .env.local file in the root directory and add your Hugging Face API key:
+3. Create `.env.local` using the template below.
+
+4. Start the development server:
 
     ```bash
-    NEXT_PUBLIC_API_KEY=<your-huggingface-access-token>
-    MONGODB_URI=<your-database-url>
-    JWT_SECRET=<your-jwt-secret>
-    NEXTAUTH_SECRET=<your-nextauth-secret>
-    NEXTAUTH_URL=<your-next-auth-url>
-    EMAIL_SERVER=<your-email-server>
-    EMAIL_PORT=<email-port>
-    EMAIL_USER=<sending-email-id>
-    EMAIL_PASS=<sending-email-password>
-    EMAIL_FROM=<sending-email-id>
-    NEXT_PUBLIC_URL=<stable-diffusion-api-url>
+    npm run dev
     ```
 
-### Usage
+5. Open [http://localhost:3000](http://localhost:3000).
 
-1. Start the development server:
+## Environment variables
+
+Create `.env.local` for development and configure the same variables in the deployment provider for production:
+
+```dotenv
+# Required: MongoDB connection string
+MONGODB_URI=mongodb+srv://username:password@cluster.example.mongodb.net/phrasepic
+
+# Required: long random secrets; use different values in each environment
+NEXTAUTH_SECRET=replace-with-a-long-random-value
+JWT_SECRET=replace-with-a-different-long-random-value
+
+# Required: public URL of this Next.js application
+NEXTAUTH_URL=http://localhost:3000
+
+# Required: FastAPI endpoint used by /api/generate
+FASTAPI_URL=http://localhost:8000/generate
+
+# Required for password reset email delivery
+EMAIL_SERVER=smtp.example.com
+EMAIL_PORT=587
+EMAIL_USER=your-smtp-user
+EMAIL_PASS=your-smtp-password
+EMAIL_FROM=no-reply@example.com
+```
+
+`FASTAPI_URL` is read on the server. Do not prefix secrets or private service URLs with `NEXT_PUBLIC_`, commit `.env.local`, or expose credentials in client-side code. In production, `NEXTAUTH_URL` must exactly match the deployed application URL, including the `https://` scheme. The SMTP port is parsed as a number; common values are `587` (STARTTLS) and `465` (TLS).
+
+## Production deployment
+
+PhrasePic can be deployed anywhere that supports a Next.js production server, such as Vercel or a Node.js host.
+
+1. Provision MongoDB, the FastAPI image service, and an SMTP provider.
+2. Add every variable in the [environment variables](#environment-variables) section to the production environment. Keep secrets out of source control and build logs.
+3. Configure the MongoDB network rules to allow connections from the deployment host.
+4. Build and start the application:
 
     ```bash
-        npm run dev
-        or
-        yarn dev
+    npm ci
+    npm run build
+    npm run start
     ```
 
-2. Open your browser and navigate to http://localhost:3000 to see the application in action.
+5. Confirm that registration, login, image generation, image download, and password reset work from the public HTTPS URL.
 
-#### Generating an Image
+The image endpoint is rate limited by client IP. If the app runs behind a proxy, make sure the platform forwards `x-forwarded-for` correctly. Review the limits and storage configuration in `src/app/utils/ratelimit.ts` before exposing the service to significant traffic.
 
-1. Enter a text prompt in the input field.
-2. Click the "Generate" button to create an image based on the input text.
-3. Click the "Download" button to save the generated image to your device.
-4. Use the "Refresh" button to clear the current input and image.
-5. Click the "Mic" icon button for input via speech.
+## Scripts
 
-### Technologies Used
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the Next.js development server. |
+| `npm run build` | Create an optimized production build. |
+| `npm run start` | Serve the production build. |
+| `npm run lint` | Run the configured Next.js lint command. |
 
-- [Next.js](https://nextjs.org/) - The React Framework for Production
-- [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework
-- [Hugging Face](https://huggingface.co/) - Model hosting platform
-- [Stable Diffusion](https://www.stability.ai/) - AI model for generating images from text
-- [Next Auth](https://next-auth.js.org/) - Authentication for Next.js
+There is currently no automated test script in `package.json`.
 
-### Contributing
+## Project structure
 
-We welcome contributions! If you'd like to contribute to PhrasePic, please follow our [Contribution Guidelines](https://github.com/SubramanyaKS/PhrasePic/blob/main/CONTRIBUTING.md).
+```text
+src/app/              Next.js pages, layouts, API routes, and UI components
+src/app/api/          Authentication and image-generation endpoints
+src/app/hooks/        Client-side feature hooks
+src/context/          Authentication context
+src/lib/              Shared infrastructure, including MongoDB connection
+src/modules/          Database models
+public/               Static assets
+```
 
-### License
+## Contributing
 
-This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+Bug reports, feature requests, and pull requests are welcome. Please read [CONTRIBUTING.md](./CONTRIBUTING.md) before opening a change. Run `npm run build` and `npm run lint` before submitting a pull request, and document any required environment or API changes.
 
-### Credits
+## License
 
-* [Hugging Face](https://huggingface.co/)
+PhrasePic is licensed under the MIT License. See [LICENSE](./LICENSE).
 
-* [Next JS](https://nextjs.org/)
-
-* [Stability AI](https://huggingface.co/stabilityai/)
-
-### Contact
-
-If you have any questions or suggestions, feel free to reach out to me:
+## Contact
 
 - GitHub: [SubramanyaKS](https://github.com/SubramanyaKS)
-- Gmail: [Gmail](mailto://subramanyaks22@gmail.com)
+- Email: [subramanyaks22@gmail.com](mailto:subramanyaks22@gmail.com)
