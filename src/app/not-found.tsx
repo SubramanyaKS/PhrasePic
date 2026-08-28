@@ -7,14 +7,14 @@ import { constants } from './utils/constant';
 const NotFound = () => {
     const router = useRouter();
   return (
-    <div  className="flex justify-center flex-col items-center text-center text-white">
-        <div className='m-12 mb-44'>
-        <h2 className='drop-shadow m-4 text-9xl font-bold bg-gradient-to-r from-pink-900 via-pink-500 to-indigo-500 text-transparent bg-clip-text '>{constants.errorcode}</h2>
-          <h2 className='text-pink-500 text-5xl m-4' >{constants.errorheadline}</h2>
-          <p className="text-xl m-4">{constants.errormessage}</p>
-          <Button  OnClick={()=>router.replace('/')} title="Home"/>
+    <main className="flex flex-1 items-center justify-center text-center text-white">
+      <div className="m-12">
+        <h2 className="m-4 bg-gradient-to-r from-pink-900 via-pink-500 to-indigo-500 text-9xl font-bold text-transparent bg-clip-text drop-shadow">{constants.errorcode}</h2>
+        <h2 className="m-4 text-5xl text-pink-500">{constants.errorheadline}</h2>
+        <p className="m-4 text-xl">{constants.errormessage}</p>
+        <Button OnClick={() => router.replace('/')} title="Home" />
       </div>
-    </div>
+    </main>
   )
 }
 
