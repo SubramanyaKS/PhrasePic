@@ -1,11 +1,18 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Submitbutton from '../../../components/submitbutton';
 import InputFeild from '../../../components/inputfeild';
 import { useResetPassword } from '@/app/hooks/useResetPassword';
 
-const ResetPassword = ({ params }: { params: { token: string } }) => {
-  const { newPassword, handleSubmit, setNewPassword, message } = useResetPassword(params.token);
+const ResetPassword = ({ params }: { params: Promise<{ token: string }> }) => {
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    params.then(({ token: routeToken }) => setToken(routeToken));
+  }, [params]);
+
+  const { newPassword, handleSubmit, setNewPassword, message } = useResetPassword(token);
 
   return (
     <div>
