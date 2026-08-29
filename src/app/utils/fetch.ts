@@ -1,27 +1,38 @@
-export const query = async (text: string) => {
+export const query = async (text: string): Promise<Blob> => {
   try {
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_URL!,
-      {
-        headers: { 
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
-          'Content-Type': 'application/json' 
-        },
-        method: "POST",
-        body: JSON.stringify({ inputs: text }),
-      }
-    );
+    const apiUrl = process.env.FASTAPI_URL;
+
+    if (!apiUrl) {
+      throw new Error("FASTAPI_URL is not configured");
+    }
+
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        prompt: text,
+      }),
+    });
 
     if (!response.ok) {
       const errorText = await response.text();
-      // console.error(`HTTP error! status: ${response.status}, message: ${errorText}`);
-      throw new Error(`HTTP error! status: ${response.status}`);
+
+      console.error("FastAPI error:", {
+        status: response.status,
+        statusText: response.statusText,
+        body: errorText,
+      });
+
+      throw new Error(
+        `Image API error: ${response.status} ${response.statusText}`
+      );
     }
 
-    const result = await response.blob();
-    return result;
+    return await response.blob();
   } catch (error) {
-    // console.error("Error fetching API:", error);
+    console.error("Error fetching image API:", error);
     throw error;
   }
 };

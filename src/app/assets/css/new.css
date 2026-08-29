@@ -1,0 +1,83 @@
+.gradient-text {
+  background: linear-gradient(
+    90deg,
+    #ec4899,
+    #d946ef,
+    #8b5cf6
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+
+/* Hero primary */
+
+.hero-primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  border-radius: 13px;
+
+  padding: 13px 19px;
+
+  background: linear-gradient(
+    135deg,
+    #ec4899,
+    #a855f7
+  );
+
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  box-shadow:
+    0 10px 35px rgba(236, 72, 153, 0.2);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.hero-primary-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 15px 45px rgba(236, 72, 153, 0.3);
+}
+
+
+/* Hero secondary */
+
+.hero-secondary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  border-radius: 13px;
+
+  padding: 13px 20px;
+
+  background: rgba(255, 255, 255, 0.03);
+
+  color: #a1a1aa;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  transition: all 0.2s ease;
+}
+
+.hero-secondary-button:hover {
+  background: rgba(255, 255, 255, 0.07);
+
+  color: white;
+
+  border-color: rgba(255, 255, 255, 0.16);
+}

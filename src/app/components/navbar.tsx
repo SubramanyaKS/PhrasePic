@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import { signOut,useSession } from 'next-auth/react';
 import { useState } from 'react';
-import { ArrowLeftEndOnRectangleIcon, ArrowRightStartOnRectangleIcon, HomeIcon } from '@heroicons/react/24/outline';
+import { LogIn,LogOut,House,Sparkles } from 'lucide-react';
 
 const Navbar = () => {
   const {data:session}=useSession();
@@ -13,18 +13,29 @@ const Navbar = () => {
 
 
   return (
-    <nav className="bg-black shadow-2xl p-4">
+    <nav className="bg-[#09080f] shadow-2xl p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <div className="text-pink-500 text-xl font-bold">PhrasePic</div>
+        <Link
+            href="/"
+            className="flex items-center gap-2"
+          >
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-purple-600 shadow-lg shadow-pink-500/10">
+              <Sparkles size={18} />
+            </div>
+
+            <span className="text-xl font-bold">
+              Phrase<span className="text-pink-500">Pic</span>
+            </span>
+          </Link>
         <div className="hidden md:flex space-x-4">
             <Link  href='/' className="flex text-pink-300 hover:text-white">
-              <HomeIcon className='size-5'/> Home
+              <House className='size-5'/> Home
             </Link>
             {!session?(
            <Link  href={'/login'} className="flex text-pink-300 hover:text-white">
-            <ArrowLeftEndOnRectangleIcon className='size-5'/> LogIn
+            <LogIn className='size-5'/> LogIn
            </Link>):(
-            <button className="flex text-pink-300" onClick={()=>signOut()}><ArrowRightStartOnRectangleIcon className='size-5'/>  LogOut</button>
+            <button className="flex text-pink-300" onClick={()=>signOut()}><LogOut className='size-5'/>  LogOut</button>
            )}
 
         </div>

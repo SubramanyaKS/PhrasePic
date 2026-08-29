@@ -1,6 +1,6 @@
-import { EllipsisHorizontalIcon, MicrophoneIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { SearchProps } from '../utils/types';
+import { Ellipsis, Mic } from 'lucide-react';
 
 
 const Searchbar = ({ value, OnChange, talk,listening }: SearchProps) => {
@@ -20,9 +20,9 @@ const Searchbar = ({ value, OnChange, talk,listening }: SearchProps) => {
         type="button"
       >
         {listening ? (
-          <EllipsisHorizontalIcon className="h-5 w-5" />
+          <Ellipsis className="h-5 w-5" />
         ) : (
-          <MicrophoneIcon className="h-5 w-5" />
+          <Mic className="h-5 w-5" />
         )}
       </button>
     </div>
