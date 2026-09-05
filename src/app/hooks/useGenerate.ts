@@ -8,7 +8,7 @@ export const useGenerate = () => {
     const [imgSrc, setImgSrc] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
-    const [listening,setListening]= useState<boolean>(false);
+    const [listening, setListening] = useState<boolean>(false);
     const { status } = useSession();
     const router = useRouter();
 
@@ -19,15 +19,20 @@ export const useGenerate = () => {
         }
     }, [status, router])
 
-    const handleChange = async (event: any) => {
+    const handleChange = async (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         event.preventDefault();
         setText(event.target.value)
+        setError('')
     }
 
     const refresh = () => {
         setImgSrc(null);
         setLoading(false);
         setText('');
+    };
+    const handlePromptChange = (prompt: string) => {
+        setText(prompt);
+        setError("");
     };
 
     const handleDownload = () => {
@@ -36,7 +41,7 @@ export const useGenerate = () => {
         }
     };
 
-    const talk=(e:any)=>{
+    const talk = (e: any) => {
         e.preventDefault();
 
         if (!listening) {
@@ -45,7 +50,7 @@ export const useGenerate = () => {
                 (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
             const recognition = new SpeechRecognition();
             recognition.lang = 'en-US';
-            recognition.onresult = async (event:any) => {
+            recognition.onresult = async (event: any) => {
                 const last = event.results.length - 1;
                 const text = event.results[last][0].transcript;
                 setText(text)
@@ -78,5 +83,5 @@ export const useGenerate = () => {
             }
         }
     };
-    return { text, loading, error, imgSrc, handleDownload, generate, refresh, handleChange, talk,listening }
+    return { text, loading, error, imgSrc, handleDownload, generate, refresh, handleChange, talk, listening, handlePromptChange }
 }

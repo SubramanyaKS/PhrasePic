@@ -28,18 +28,25 @@ export default async function RootLayout({
       <body className={`${inter.className} bg-[#09080f] text-white`}>
         <AuthProvider session={session}>
           <div className="flex min-h-screen flex-col bg-[#09080f]">
-            <div className="pointer-events-none fixed inset-0 -z-0 overflow-hidden">
 
+            {/* Background effects */}
+            <div className="pointer-events-none fixed inset-0 -z-0 overflow-hidden">
               <div className="absolute left-[10%] top-[15%] h-[450px] w-[450px] rounded-full bg-pink-600/10 blur-[150px]" />
 
               <div className="absolute right-[5%] top-[25%] h-[500px] w-[500px] rounded-full bg-purple-700/10 blur-[160px]" />
 
               <div className="absolute bottom-[-200px] left-[40%] h-[500px] w-[500px] rounded-full bg-blue-700/10 blur-[160px]" />
-
             </div>
-            <Navbar/>
-            {children}
-            <Footer/>
+
+            <Navbar />
+
+            {/* Page content */}
+            <main className="flex-1">
+              {children}
+            </main>
+
+            <Footer />
+
           </div>
         </AuthProvider>
       </body>
