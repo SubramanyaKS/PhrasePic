@@ -84,7 +84,7 @@ export default function HomePage() {
                 <div className="mt-3 flex items-center gap-3 rounded-xl border border-white/[0.07] bg-black/30 px-4 py-3">
                   <div className="flex-1 overflow-hidden">
                     <p className="truncate text-xs text-gray-500">Prompt</p>
-                    <p className="truncate text-sm text-gray-300">A futuristic city floating above the clouds...</p>
+                    <p className="truncate text-sm text-gray-300">A lone warrior riding through a misty landscape beneath a dramatic stormy sky...</p>
                   </div>
                   <button type="button" onClick={moveToGenerate} aria-label="Start generating" className="rounded-lg bg-pink-500 p-2.5 text-white transition hover:bg-pink-400"><ArrowRight size={16} /></button>
                 </div>
