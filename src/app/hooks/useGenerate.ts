@@ -9,15 +9,6 @@ export const useGenerate = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const [listening, setListening] = useState<boolean>(false);
-    const { status } = useSession();
-    const router = useRouter();
-
-    useEffect(() => {
-        if (status != 'authenticated') {
-            // router.push('/login');
-            redirect('/login');
-        }
-    }, [status, router])
 
     const handleChange = async (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         event.preventDefault();
