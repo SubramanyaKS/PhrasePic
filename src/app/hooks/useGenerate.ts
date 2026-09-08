@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
 import { convertBase64ToBlobUrl, fetchGeneratedImage, downloadImage } from "../utils/generate";
+import { createClient } from "@/lib/supabase/client";
 
 export const useGenerate = () => {
     const [text, setText] = useState<string>('');
@@ -9,15 +8,7 @@ export const useGenerate = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const [listening, setListening] = useState<boolean>(false);
-    const { status } = useSession();
-    const router = useRouter();
-
-    useEffect(() => {
-        if (status != 'authenticated') {
-            // router.push('/login');
-            redirect('/login');
-        }
-    }, [status, router])
+    const supabase = createClient();
 
     const handleChange = async (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         event.preventDefault();
@@ -67,20 +58,40 @@ export const useGenerate = () => {
     };
 
     const generate = async () => {
+        if (!text.trim()) {
+            setError("Please enter a prompt.");
+            return;
+        }
+
         setLoading(true);
-        setError('');
+        setError("");
         setImgSrc(null);
-        if (text.length > 0) {
-            try {
-                const base64Image = await fetchGeneratedImage(text);
-                const objURL = await convertBase64ToBlobUrl(base64Image);
-                setImgSrc(objURL);
-            } catch (error) {
-                console.log(error);
-                setError('An error occurred while generating the image. Please try again later.');
-            } finally {
-                setLoading(false);
+
+        try {
+            const {
+                data: { session },
+            } = await supabase.auth.getSession();
+
+            if (!session?.access_token) {
+                setError("Your session has expired. Please login again.");
+                return;
             }
+
+            const base64Image = await fetchGeneratedImage(
+                text,
+                session.access_token
+            );
+
+            const objURL = await convertBase64ToBlobUrl(base64Image);
+
+            setImgSrc(objURL);
+        } catch (error) {
+            console.error(error);
+            setError(
+                "An error occurred while generating the image. Please try again later."
+            );
+        } finally {
+            setLoading(false);
         }
     };
     return { text, loading, error, imgSrc, handleDownload, generate, refresh, handleChange, talk, listening, handlePromptChange }

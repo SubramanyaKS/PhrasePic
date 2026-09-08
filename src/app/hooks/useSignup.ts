@@ -1,73 +1,45 @@
 import { useRouter } from "next/navigation";
 import React, { useState } from "react"
 import { isValidEmail, isValidPassword } from "../utils/validate";
+import { createClient } from "@/lib/supabase/client";
+
 
 export const useSignup = () => {
   const [data, setData] = useState({ name: "", email: "", password: "" });
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const supabase= createClient();
 
-  const handleChange = async (event: any) => {
-    const { name, value } = event.target;
-    setData({ ...data, [name]: value });
-  };
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => { const { name, value } = event.target; setData((prev) => ({ ...prev, [name]: value, })); if (error) { setError(""); } };
 
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Handle login logic here
+    setError("");
     if (!data.name || !data.email || !data.password) {
       setError('All Fields are required');
+      return;
     }
     if (!isValidEmail(data.email)) {
       setError('Invalid Email');
+      return;
     }
     if (!isValidPassword(data.password)) {
       setError('Password should contain atleast one uppercase one number and one special character')
+      return;
     }
+    setLoading(true);
 
-    else {
       try {
-        const email = data.email
-        const name = data.name
-        const password = data.password
-        const responsexist = await fetch('/api/auth/userexist', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email }),
-        });
-        const { user } = await responsexist.json();
-        if (user) {
-          setError('User Already Exist');
-          return;
-        }
-        else {
-          const response = await fetch('/api/auth/register', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ name, email, password }),
-          });
-          if (response.ok) {
-            // alert('Registration successful');
-            router.push('/login');
-            setData({ name: "", email: "", password: "" })
+        const { data: authData, error } = await supabase.auth.signUp({ email: data.email, password: data.password, options: { data: { name: data.name, }, }, });
+        if (error) {  setError(error.message); return; }
+        if (!authData.user) { setError("Registration failed"); return; } setData({ name: "", email: "", password: "", });
+       router.push("/login");
 
-          } else {
-            setError('Registration failed');
-          }
-
-        }
-
-
-      } catch (error) {
-        setError("Something gone wrong");
-
-      }
-    }
+      } catch (error) { console.error(error); setError("Something went wrong"); } finally { setLoading(false); }
+    
 
   };
   return { data, handleChange, handleSubmit, error };

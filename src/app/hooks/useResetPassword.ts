@@ -1,39 +1,104 @@
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { isValidPassword } from '../utils/validate';
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import { isValidPassword } from "../utils/validate";
 
-export const useResetPassword = (token: string) => {
-  const [newPassword, setNewPassword] = useState('');
-  const [message, setMessage] = useState('');
+const supabase = createClient();
+
+export const useResetPassword = () => {
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [ready, setReady] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  useEffect(() => {
+    // Supabase restores the recovery session from the email link before updating the password.
+    let mounted = true;
+
+    const loadRecoverySession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!mounted) return;
+
+      setReady(Boolean(session));
+      if (!session) {
+        setMessage("This password reset link is invalid or has expired.");
+      }
+    };
+
+    loadRecoverySession();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!mounted) return;
+
+      if (event === "PASSWORD_RECOVERY" || event === "SIGNED_IN") {
+        setReady(Boolean(session));
+        setMessage("");
+      }
+
+      if (event === "SIGNED_OUT") {
+        setReady(false);
+      }
+    });
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!isValidPassword(newPassword)) {
-      setMessage('Password should contain at least one uppercase letter, one number, and one special character');
+
+    setMessage("");
+
+    if (!ready || submitting) {
+      setMessage("This password reset link is invalid or has expired.");
       return;
     }
 
-    const res = await fetch('/api/auth/reset-password', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ token, newPassword }),
-    });
+    if (!isValidPassword(newPassword)) {
+      setMessage(
+        "Password should contain at least one uppercase letter, one number, and one special character"
+      );
+      return;
+    }
 
-    const data = await res.json();
-    setMessage(data.message);
+    if (newPassword !== confirmPassword) {
+      setMessage("New Password and Confirm Password do not match!");
+      return;
+    }
 
-    if (res.ok) {
-      router.push('/login');
+    setSubmitting(true);
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword,
+      });
+
+      if (error) {
+        console.error(error);
+        setMessage("Unable to update the password. The reset link may have expired.");
+        return;
+      }
+
+      setMessage("Password updated successfully.");
+      await supabase.auth.signOut();
+      router.replace("/login");
+    } finally {
+      setSubmitting(false);
     }
   };
 
   return {
     newPassword,
     setNewPassword,
+    confirmPassword,
+    setConfirmPassword,
     message,
+    ready,
+    submitting,
     handleSubmit,
   };
 };

@@ -3,10 +3,10 @@ export const convertBase64ToBlobUrl = async (base64Image: any) => {
     return URL.createObjectURL(blob);
 };
 
-export const fetchGeneratedImage = async (text: string) => {
+export const fetchGeneratedImage = async (text: string,accessToken: string) => {
     const response = await fetch('/api/generate', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json',Authorization: `Bearer ${accessToken}`, },
         body: JSON.stringify({ text }),
     });
 
