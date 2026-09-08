@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
-import { useSession } from 'next-auth/react';
+import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
+import { createClient } from '@/lib/supabase/client';
 
 export const useProfile = ()=>{
-    const { data: session, status } = useSession();
     const router = useRouter();
-    const [userDetails, setUserDetails] = useState();
-    const userName = session?.user?.name
-    const userEmail1 = session?.user?.email
+    const [user, setUser] = useState<any>(null);
+    const supabase = createClient();
+    const userName = user?.user_metadata?.name ?? user?.email;
+    const userEmail1 = user?.email;
 
     const moveBack = ()=>{
         router.back();
@@ -15,34 +15,21 @@ export const useProfile = ()=>{
     }
 
 
-    const fetchData = async () => {
-        if (status === 'authenticated' && session?.user?.email) {
-
-            const response = await fetch('/api/auth/userdata', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email: userEmail1 }), // Ensure the key is correct
-            });
-
-            if (response.ok) {
-                const { user } = await response.json();
-                setUserDetails(user)
-            } else {
-                console.error('Error fetching user:', response.statusText);
-            }
-        }
-    };
     useEffect(() => {
-        if (status === 'authenticated') {
-            fetchData();
-        }
-        else {
-            router.replace('/login');
-        }
+        // Read the authenticated Supabase user instead of a NextAuth session.
+        const loadUser = async () => {
+            const { data: { user: currentUser } } = await supabase.auth.getUser();
+            setUser(currentUser);
+            if (!currentUser) router.replace('/login');
+        };
 
-    }, [userEmail1, status])
+        loadUser();
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+            setUser(session?.user ?? null);
+        });
+
+        return () => subscription.unsubscribe();
+    }, [router, supabase]);
 
     return {userName,userEmail1,moveBack}
 

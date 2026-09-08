@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
 import { convertBase64ToBlobUrl, fetchGeneratedImage, downloadImage } from "../utils/generate";
 
 export const useGenerate = () => {

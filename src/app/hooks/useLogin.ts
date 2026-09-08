@@ -1,28 +1,15 @@
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
-// import { useSession, signIn } from 'next-auth/react';
 import { isValidEmail, isValidPassword } from '../utils/validate';
 import { createClient } from '@/lib/supabase/client';
 
 export const useLogin = () => {
   const [data, setData] = useState({ email: "", password: "" });
   const [error, setError] = useState('');
-  // const session = useSession();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const supabase = createClient();
 
-
-  // useEffect(() => {
-  //   if (session?.status === 'authenticated') {
-  //     router.replace('/generation');
-  //   }
-  // }, [router, session])
-
-  // const handleChange =  async (event:any) => {
-  //   const { name,value} = event.target;
-  //   setData({ ...data, [name]: value });
-  // };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;

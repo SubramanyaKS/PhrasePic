@@ -6,9 +6,6 @@ import "./globals.css";
 
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
-import { AuthProvider } from "./context/authContext";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/auth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,12 +19,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession(authOptions);
   return (
     <html lang="en">
       <body className={`${inter.className} bg-[#09080f] text-white`}>
-        <AuthProvider session={session}>
-          <div className="flex min-h-screen flex-col bg-[#09080f]">
+        <div className="flex min-h-screen flex-col bg-[#09080f]">
 
             {/* Background effects */}
             <div className="pointer-events-none fixed inset-0 -z-0 overflow-hidden">
@@ -47,8 +42,7 @@ export default async function RootLayout({
 
             <Footer />
 
-          </div>
-        </AuthProvider>
+        </div>
       </body>
     </html>
   );

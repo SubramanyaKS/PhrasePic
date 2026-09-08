@@ -18,9 +18,9 @@ PhrasePic is a full-stack text-to-image application. Users can create an account
 ## Features
 
 - Prompt-to-image generation through a FastAPI image service.
-- Account registration and credentials-based authentication.
-- JWT-backed sessions with NextAuth.
-- Password reset emails with expiring reset tokens.
+- Account registration and credentials-based authentication through Supabase Auth.
+- Supabase-managed sessions with SSR cookie refresh.
+- Supabase password recovery and password updates.
 - Request rate limiting on image generation.
 - Image preview, download, reset, and speech-to-text prompt input.
 - Responsive interface built with Tailwind CSS.
@@ -29,8 +29,7 @@ PhrasePic is a full-stack text-to-image application. Users can create an account
 
 ```text
 Browser -> Next.js UI -> /api/generate -> FastAPI image service
-                          -> /api/auth/* -> MongoDB
-                                                  -> SMTP provider (password reset)
+                          -> Supabase Auth
 ```
 
 The browser never needs the image-service credentials. The `/api/generate` route validates the prompt, applies IP-based rate limiting, calls the FastAPI service, and returns the image as a data URL.
@@ -39,9 +38,7 @@ The browser never needs the image-service credentials. The `/api/generate` route
 
 - Node.js 18.18 or newer (Node.js 20 LTS recommended).
 - npm 9 or newer.
-- A MongoDB database.
 - A running FastAPI image-generation service accepting `POST` requests with `{ "prompt": "..." }` and returning an image response.
-- An SMTP account for password reset messages.
 
 ## Local development
 
@@ -73,37 +70,24 @@ The browser never needs the image-service credentials. The `/api/generate` route
 Create `.env.local` for development and configure the same variables in the deployment provider for production:
 
 ```dotenv
-# Required: MongoDB connection string
-MONGODB_URI=mongodb+srv://username:password@cluster.example.mongodb.net/phrasepic
-
-# Required: long random secrets; use different values in each environment
-NEXTAUTH_SECRET=replace-with-a-long-random-value
-JWT_SECRET=replace-with-a-different-long-random-value
-
-# Required: public URL of this Next.js application
-NEXTAUTH_URL=http://localhost:3000
+# Required: Supabase project credentials
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-supabase-publishable-key
 
 # Required: FastAPI endpoint used by /api/generate
 FASTAPI_URL=http://localhost:8000/generate
 
-# Required for password reset email delivery
-EMAIL_SERVER=smtp.example.com
-EMAIL_PORT=587
-EMAIL_USER=your-smtp-user
-EMAIL_PASS=your-smtp-password
-EMAIL_FROM=no-reply@example.com
 ```
 
-`FASTAPI_URL` is read on the server. Do not prefix secrets or private service URLs with `NEXT_PUBLIC_`, commit `.env.local`, or expose credentials in client-side code. In production, `NEXTAUTH_URL` must exactly match the deployed application URL, including the `https://` scheme. The SMTP port is parsed as a number; common values are `587` (STARTTLS) and `465` (TLS).
+`FASTAPI_URL` is read on the server. Do not prefix secrets or private service URLs with `NEXT_PUBLIC_`, commit `.env.local`, or expose credentials in client-side code. Configure the Supabase Auth recovery URL allow-list and email template for `/reset-password`.
 
 ## Production deployment
 
 PhrasePic can be deployed anywhere that supports a Next.js production server, such as Vercel or a Node.js host.
 
-1. Provision MongoDB, the FastAPI image service, and an SMTP provider.
+1. Provision the Supabase project and FastAPI image service.
 2. Add every variable in the [environment variables](#environment-variables) section to the production environment. Keep secrets out of source control and build logs.
-3. Configure the MongoDB network rules to allow connections from the deployment host.
-4. Build and start the application:
+3. Build and start the application:
 
     ```bash
     npm ci
@@ -111,7 +95,7 @@ PhrasePic can be deployed anywhere that supports a Next.js production server, su
     npm run start
     ```
 
-5. Confirm that registration, login, image generation, image download, and password reset work from the public HTTPS URL.
+4. Confirm that registration, login, image generation, image download, and password reset work from the public HTTPS URL.
 
 The image endpoint is rate limited by client IP. If the app runs behind a proxy, make sure the platform forwards `x-forwarded-for` correctly. Review the limits and storage configuration in `src/app/utils/ratelimit.ts` before exposing the service to significant traffic.
 
@@ -132,9 +116,7 @@ There is currently no automated test script in `package.json`.
 src/app/              Next.js pages, layouts, API routes, and UI components
 src/app/api/          Authentication and image-generation endpoints
 src/app/hooks/        Client-side feature hooks
-src/context/          Authentication context
-src/lib/              Shared infrastructure, including MongoDB connection
-src/modules/          Database models
+src/lib/              Shared infrastructure, including Supabase clients
 public/               Static assets
 ```
 

@@ -2,9 +2,17 @@ import { NextRequest, NextResponse } from 'next/server';
 import { query } from '../../utils/fetch';
 import { rateLimiter } from '../../utils/ratelimit';
 import { blobToBase64 } from '@/app/utils/generate';
+import { createClient } from '@/lib/supabase/server';
 
 export async function POST(request: NextRequest) {
   try {
+    // Protect image generation with the same Supabase identity used by the UI.
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
     const { text } = await request.json();
 
     if (!text) {

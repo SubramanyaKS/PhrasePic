@@ -1,21 +1,9 @@
-'use client';
-
-import InputFeild from '../../components/inputfeild';
-import Submitbutton from '../../components/submitbutton';
-import { useForgot } from '../../hooks/useForgot';
+import ForgotPassword from './ForgotPassword';
 
 const page = () => {
-  const {email,handleSubmit,message,setEmail} = useForgot();
 
   return (
-    <div>
-      <h2 className="text-2xl text-white font-bold mb-6 text-center" >Forgot Password</h2>
-      <form onSubmit={handleSubmit}>
-      <InputFeild name="email" value={email} title="Email"  OnChange={(e) => setEmail((e.target as HTMLInputElement).value)} id="email" type="email"/>
-      <Submitbutton title="Submit"/>
-      </form>
-      {message && <p className='text-center mt-2 text-white'>{message}</p>}
-    </div>
+    <ForgotPassword/>
   );
 };
 

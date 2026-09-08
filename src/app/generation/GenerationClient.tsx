@@ -16,7 +16,7 @@ export default function GenerationClient() {
       <div className="mx-auto max-w-4xl">
 
         {/* Heading */}
-        <div className="mb-8 text-center">
+        <div className="mb-24 text-center">
           <h1 className="mb-3 text-4xl font-bold text-pink-200 md:text-5xl">
             Create Something Amazing
           </h1>
@@ -70,7 +70,7 @@ export default function GenerationClient() {
         </div>
 
         {/* Buttons */}
-        <div className="mt-6 flex flex-wrap justify-center gap-3">
+        <div className="mt-12 flex flex-wrap justify-center gap-3">
           <Button
             title={loading ? "Generating..." : "✨ Generate Image"}
             OnClick={generate}
