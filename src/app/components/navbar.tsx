@@ -2,13 +2,22 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { LogIn, LogOut, House, Sparkles } from "lucide-react";
+import {
+  LogIn,
+  LogOut,
+  House,
+  Sparkles,
+  User,
+  Settings,
+  ChevronDown,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
 const Navbar = () => {
   const [user, setUser] = useState<any>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const router = useRouter();
@@ -41,6 +50,10 @@ const Navbar = () => {
     setIsOpen((prev) => !prev);
   };
 
+  const toggleProfile = () => {
+    setProfileOpen((prev) => !prev);
+  };
+
   const loggingout = async () => {
     const { error } = await supabase.auth.signOut();
 
@@ -51,6 +64,7 @@ const Navbar = () => {
 
     setUser(null);
     setIsOpen(false);
+    setProfileOpen(false);
 
     router.replace("/login");
     router.refresh();
@@ -79,32 +93,88 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="hidden md:flex space-x-4">
+        <div className="hidden md:flex items-center space-x-5">
 
+          {/* Home */}
           <Link
             href="/"
-            className="flex text-pink-300 hover:text-white"
+            className="flex items-center gap-1 text-pink-300 hover:text-white"
           >
             <House className="size-5" />
             Home
           </Link>
 
           {!user ? (
+            /* Login */
             <Link
               href="/login"
-              className="flex text-pink-300 hover:text-white"
+              className="flex items-center gap-1 text-pink-300 hover:text-white"
             >
               <LogIn className="size-5" />
               Login
             </Link>
           ) : (
-            <button
-              className="flex text-pink-300 hover:text-white"
-              onClick={loggingout}
-            >
-              <LogOut className="size-5" />
-              Logout
-            </button>
+            /* Profile Dropdown */
+            <div className="relative">
+
+              {/* Profile Button */}
+              <button
+                onClick={toggleProfile}
+                className="flex items-center gap-2 text-pink-300 hover:text-white transition"
+              >
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-pink-500 to-purple-600">
+                  <User className="size-4 text-white" />
+                </div>
+
+                <span>
+                  {user?.user_metadata?.name || "User"}
+                </span>
+
+                <ChevronDown
+                  className={`size-4 transition-transform ${
+                    profileOpen ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+
+              {/* Dropdown */}
+              {profileOpen && (
+                <div className="absolute right-0 mt-3 w-56 rounded-xl border border-white/10 bg-[#15131f] p-2 shadow-2xl z-50">
+
+                  {/* Profile */}
+                  <Link
+                    href="/profile"
+                    onClick={() => setProfileOpen(false)}
+                    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-gray-300 hover:bg-white/10 hover:text-white transition"
+                  >
+                    <User className="size-5" />
+                    Profile
+                  </Link>
+
+                  {/* Account Settings */}
+                  <Link
+                    href="/settings"
+                    onClick={() => setProfileOpen(false)}
+                    className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-gray-300 hover:bg-white/10 hover:text-white transition"
+                  >
+                    <Settings className="size-5" />
+                    Account Settings
+                  </Link>
+
+                  {/* Divider */}
+                  <div className="my-2 border-t border-white/10" />
+
+                  {/* Logout */}
+                  <button
+                    onClick={loggingout}
+                    className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 transition"
+                  >
+                    <LogOut className="size-5" />
+                    Sign out
+                  </button>
+                </div>
+              )}
+            </div>
           )}
         </div>
 
@@ -120,7 +190,6 @@ const Navbar = () => {
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
             >
               {isOpen ? (
                 <path
@@ -146,34 +215,57 @@ const Navbar = () => {
       {isOpen && (
         <div className="md:hidden mt-4 space-y-2">
 
+          {/* Home */}
           <Link
             href="/"
-            className="flex text-gray-300 hover:text-white"
+            className="flex items-center text-gray-300 hover:text-white"
             onClick={() => setIsOpen(false)}
           >
             <House className="size-5 mr-1" />
             Home
           </Link>
 
-          <br />
-
           {!user ? (
+            /* Login */
             <Link
               href="/login"
-              className="flex text-gray-300 hover:text-white"
+              className="flex items-center text-gray-300 hover:text-white"
               onClick={() => setIsOpen(false)}
             >
               <LogIn className="size-5 mr-1" />
               Login
             </Link>
           ) : (
-            <button
-              className="flex text-gray-300 hover:text-white"
-              onClick={loggingout}
-            >
-              <LogOut className="size-5 mr-1" />
-              Logout
-            </button>
+            <>
+              {/* Mobile Profile */}
+              <Link
+                href="/profile"
+                className="flex items-center text-gray-300 hover:text-white"
+                onClick={() => setIsOpen(false)}
+              >
+                <User className="size-5 mr-1" />
+                Profile
+              </Link>
+
+              {/* Mobile Settings */}
+              <Link
+                href="/settings"
+                className="flex items-center text-gray-300 hover:text-white"
+                onClick={() => setIsOpen(false)}
+              >
+                <Settings className="size-5 mr-1" />
+                Account Settings
+              </Link>
+
+              {/* Mobile Logout */}
+              <button
+                className="flex items-center text-gray-300 hover:text-white"
+                onClick={loggingout}
+              >
+                <LogOut className="size-5 mr-1" />
+                Sign out
+              </button>
+            </>
           )}
         </div>
       )}

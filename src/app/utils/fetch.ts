@@ -1,4 +1,4 @@
-export const query = async (text: string): Promise<Blob> => {
+export const query = async (text: string,accessToken:string): Promise<Blob> => {
   try {
     const apiUrl = process.env.FASTAPI_URL;
 
@@ -10,6 +10,7 @@ export const query = async (text: string): Promise<Blob> => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
         prompt: text,
